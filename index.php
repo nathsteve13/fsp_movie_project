@@ -128,7 +128,7 @@ $movie = new Movie();
     $cari = "";
         if(isset($_GET['cari'])) {
             $cari = $_GET['cari'];
-            echo "<p><i>Hasil pencarian judul '$cari': </i></p>";
+            echo "<p><i>Hasil pencarian judul film '$cari': </i></p>";
         }
 
         $mysqli = new mysqli("localhost", "root", "", "fspw1");
