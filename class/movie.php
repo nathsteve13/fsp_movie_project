@@ -34,6 +34,16 @@ class Movie extends ParentClass {
         $res = $stmt->get_result();
         return $res;
     }
+
+    public function addMovie($arr_data) {
+        $sql = "insert into movie (judul, rilis, skor, sinopsis, serial) values (?,?,?,?,?)";
+        $stmt = $this->mysqli->prepare($sql);
+        $stmt->bind_param('ssdsi', $arr_data['judul'], $arr_data['rilis'], $arr_data['skor'], $arr_data['sinopsis'], $arr_data['serial']);
+        $stmt->execute();
+
+        $last_id = $stmt->insert_id;
+        return $last_id;
+    }
 }
 
 ?>

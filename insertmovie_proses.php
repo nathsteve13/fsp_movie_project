@@ -1,4 +1,5 @@
 <?php
+require_once("movie.php");
 $mysqli = new mysqli("localhost", "root", "", "fspw1");
 if ($mysqli->connect_errno) {
     die ("Failed to connect to MySQL: " . $mysqli->connect_error);
@@ -9,14 +10,18 @@ if ($mysqli->connect_errno) {
     $sinopsis = $_POST['sinopsis'];
     $serial = $_POST['serial'];
     $arr_genre = $_POST['genre'];
-   
-    $sql = "Insert into movie (judul, rilis, skor, sinopsis, serial)   VALUES (?, ?, ?, ?, ?)";
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param('ssdsi', $judul, $rilis, $skor, $sinopsis, $serial);
-    $stmt->execute();
 
-    $jumlah_yang_dieksekusi = $stmt->affected_rows; 
-    $last_id = $stmt->insert_id; 
+    $movie = new Movie();
+
+    $arr_movie = [
+        'judul' => $judul,
+        'rilis' => $rilis,
+        'skor' => $skor,
+        'sinopsis' => $sinopsis,
+        'serial' => $serial
+    ];
+
+    $last_id = $movie->addMovie($last_id);
 
     if($last_id) {
         $sql = "insert into genre_has_movie values (?,?)";
@@ -36,7 +41,7 @@ if ($mysqli->connect_errno) {
             $stmt->bind_param('iis',$last_id, $idpemain, $peran);
             $stmt->execute();
         }
-    }
+    }   
 
     if($last_id){
         $poster = $_FILES['poster'];
@@ -57,5 +62,5 @@ if ($mysqli->connect_errno) {
 
     $stmt->close();
     $mysqli->close();
-header("location: index.php");
+    header("location: index.php");
 ?>
