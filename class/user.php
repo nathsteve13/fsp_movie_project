@@ -9,9 +9,9 @@ class User extends ParentClass {
     }
 
     public function getUser($user_id) {
-        $sql = "select * from users where idusers = Like ?";
+        $sql = "select * from users where username = ?";
         $stmt = $this->mysqli->prepare($sql);
-        $stmt->bind_param("i", $user_id);
+        $stmt->bind_param("s", $user_id);
         $stmt->execute();
         $res = $stmt->get_result();
 
@@ -33,6 +33,7 @@ class User extends ParentClass {
 
         $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
         $stmt = $this->mysqli->prepare($sql);
+        
         $stmt->bind_param("ss", $username , $hashed_pass);
         $stmt->execute();
 

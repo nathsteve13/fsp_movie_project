@@ -1,6 +1,16 @@
 <?php 
 
+session_start();
+
+if (!isset($_SESSION['userid'])) {
+    header("location: login.php");
+}
+
+require_once("class/user.php");
 require_once("class/movie.php");
+
+$user = new User();
+$current_user = $user->getUser($_SESSION['userid']);
 
 $movie = new Movie();
 
@@ -110,6 +120,8 @@ $movie = new Movie();
 </head>
 
 <body>
+    <p>Welcome, <?php echo htmlspecialchars($current_user['username']); ?>!</p>
+    <a href="logout.php">Logout</a>
     <h1>Daftar Movie</h1>
     <p>
         <form action="">
